@@ -41,7 +41,7 @@ const DATA = {
 };
 
 const App = () => {
-  const [tableInfo] = useState(DATA);
+  const [tableInfo, setTableInfo] = useState(DATA);
   const [inputValue, setInputValue] = useState({});
   const [allocationValue, setAllocationValue] = useState({});
   const [allocationPercentage, setAllocationPercentage] = useState({});
@@ -65,6 +65,28 @@ const App = () => {
         [id]: inputValue[id],
       });
     }
+
+    tableInfo.rows.forEach((row) => {
+      if (row.id === id) {
+        row.value = row.value + Number(inputValue[id]);
+      }
+      if (row.children) {
+        row.children.forEach((child) => {
+          if (child.id === id) {
+            // update percent
+            if (type === "percentage") {
+              let percent = child.value * (Number(inputValue[id]) / 100);
+              child.value = percent + child.value;
+            } else {
+              child.value = child.value + Number(inputValue[id]);
+            }
+
+            row.value = row.children.reduce((acc, child) => acc + child.value, 0);
+          }
+        });
+      }
+    });
+    setTableInfo({ ...tableInfo });
   };
 
   return (
