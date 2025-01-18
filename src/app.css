@@ -1,0 +1,29 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+table {
+    margin: 3rem auto;
+}
+
+table,
+th,
+td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 1rem;
+}
+
+button {
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    background-color: azure;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+input {
+    padding: 1rem;
+}

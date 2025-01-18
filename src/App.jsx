@@ -1,5 +1,6 @@
 import { useState } from "react";
 import TableFields from "./components/TableFields";
+import "./app.css";
 
 const DATA = {
   rows: [
