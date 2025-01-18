@@ -1,14 +1,14 @@
-const TableFields = () => {
+const TableFields = ({ inputValue, onChange, handleButton, data }) => {
   return (
     <>
       <td>
-        <input />
+        <input type="number" value={inputValue} onChange={onChange} />
       </td>
       <td>
-        <button>Allocate %</button>
+        <button onClick={(e) => handleButton(e, data.id, "percentage")}>Allocate %</button>
       </td>
       <td>
-        <button>Allocate Value</button>
+        <button onClick={(e) => handleButton(e, data.id, "value")}>Allocate Value</button>
       </td>
       <td>0%</td>
     </>

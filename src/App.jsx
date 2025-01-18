@@ -42,35 +42,63 @@ const DATA = {
 
 const App = () => {
   const [tableInfo] = useState(DATA);
+  const [inputValue, setInputValue] = useState({});
+  const [allocationValue, setAllocationValue] = useState({});
+  const [allocationPercentage, setAllocationPercentage] = useState({});
+
+  const handleInputChange = (e, id) => {
+    setInputValue({
+      ...inputValue,
+      [id]: e.target.value,
+    });
+  };
+
+  const handleButton = (e, id, type) => {
+    if (type === "percentage") {
+      setAllocationPercentage({
+        ...allocationPercentage,
+        [id]: inputValue[id],
+      });
+    } else {
+      setAllocationValue({
+        ...allocationValue,
+        [id]: inputValue[id],
+      });
+    }
+  };
 
   return (
     <div className="table-wrapper">
       <table>
-        <tr>
-          <th>Label</th>
-          <th>Value</th>
-          <th>Input</th>
-          <th>Allocation %</th>
-          <th>Allocation Value</th>
-          <th>Variance</th>
-        </tr>
-        {tableInfo.rows.map((row) => (
-          <>
-            <tr key={row.id}>
-              <td>{row.label}</td>
-              <td>{row.value}</td>
-              <TableFields />
-            </tr>
-            {row.children &&
-              row.children.map((child) => (
-                <tr key={child.id}>
-                  <td>-- {child.label}</td>
-                  <td>{child.value}</td>
-                  <TableFields />
-                </tr>
-              ))}
-          </>
-        ))}
+        <thead>
+          <tr>
+            <th>Label</th>
+            <th>Value</th>
+            <th>Input</th>
+            <th>Allocation %</th>
+            <th>Allocation Value</th>
+            <th>Variance</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tableInfo.rows.map((row) => (
+            <>
+              <tr key={row.id}>
+                <td>{row.label}</td>
+                <td>{row.value}</td>
+                <TableFields inputValue={inputValue[row.id] || ""} data={row} handleButton={handleButton} onChange={(e) => handleInputChange(e, row.id)} />
+              </tr>
+              {row.children &&
+                row.children.map((child) => (
+                  <tr key={child.id}>
+                    <td>-- {child.label}</td>
+                    <td>{child.value}</td>
+                    <TableFields inputValue={inputValue[child.id] || ""} data={child} handleButton={handleButton} onChange={(e) => handleInputChange(e, child.id)} />
+                  </tr>
+                ))}
+            </>
+          ))}
+        </tbody>
       </table>
     </div>
   );
